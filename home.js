@@ -1,4 +1,4 @@
-function username() {
+function username(occurence) {
     const searchbar = document.getElementById("user")
     const url = window.location.search
     const urlParams = new URLSearchParams(url)
@@ -10,11 +10,12 @@ function username() {
             data.forEach(function (objet) {
                 if (objet.id_joueur == usr) {
                     const user = objet.nom_utilisateur
-                    searchbar.append(" " + user + " !");
+                    if(occurence == 0){
+                        searchbar.append(" " + user + " !");
+                    }
                     fetch(`http://localhost:8000/joueur/${usr}`)
                     .then(response => response.json())
                     .then(data => {
-                    //console.log(data)
                     data.forEach(function (objet) {
                         const li = document.createElement("li")
                         const ul = document.createElement("ul");
@@ -51,17 +52,18 @@ function search(){
     eraser();
     const url = new URL(window.location.href);
     const Params = new URLSearchParams(url.search)
-    console.log(url)
     const usr = Params.get('user')
-    console.log(usr)
     const search = document.getElementById("search").value
     const newUrl = window.location.pathname + `?user=${usr}&search=${search}`;
-    console.log(search)
     history.pushState({ path: newUrl }, "", newUrl);
+    if(search.trim()===''){
+        username(1);
+    }else{
+
+    
     fetch(`http://localhost:8000/joueur/${usr}&${search}`)
     .then(response => response.json())
     .then(data => {
-    console.log(data)
     data.forEach(function (objet) {
             const li = document.createElement("li");
             const ul = document.createElement("ul");
@@ -84,7 +86,7 @@ function search(){
 });
 })
 .catch((error) => console.error('Erreur lors de la requête API :', error));
-}
+}}
 
 
 const simi = document.getElementById("simi");
@@ -96,4 +98,4 @@ function eraser(){
         joueur.removeChild(joueur.firstChild);
       }
 }
-window.onload = username()
+window.onload = username(0)

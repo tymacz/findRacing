@@ -25,5 +25,5 @@ app.listen(port, () => {
     app.post('/joueur',db.createUser)
     app.get('/joueur/:id&:search',db.getUsersSearch)
     app.get('/joueur/:id',db.getUsers)
-    app.get('/joueur',db.getAllUsers)
+    app.get('/joueur/',db.getAllUsers)
 
