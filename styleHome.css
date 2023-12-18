@@ -5,15 +5,24 @@ ul{
 #joueur{
     display: flex;
     flex-wrap: wrap;
+    justify-content: flex-start;
+    margin-top: 1%;
 }
 
 #joueur > li{
     border: 2px solid black;
-    width: fit-content;
+    width: 80%;
     padding: 1%;
-    margin: 1%;
-
+    margin: 0.5%;
 }
+
+#joueur > li > ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+
 
 #navBar{
     display: flex;
