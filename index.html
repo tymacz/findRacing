@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find racing : inscription</title>
+</head>
+<body>
+    <form id="sign_in">
+        <ul>
+            <li>
+                <label for="usrname">Nom d'utilisateur :</label>
+                <input type="text" name="usrname" id="usrname">
+            </li>
+            <li>
+                <label for="birth">Date de naissance :</label>
+                <input type="date" name="birth" id="birth">
+            </li>
+            <li>
+                <label for="localisation">Pays :</label>
+                <select  name="localisation" id="localisation" autocomplete="off">
+                </select>
+            </li>
+            <li>
+                <label for="com">Mode de communication :</label>
+                <select name="com" id="com">
+                    <option value="vocal">vocal</option>
+                    <option value="text">text</option>
+                </select>
+            </li>
+            <li>
+                <label for="list_rank">rang :</label>
+                <select name="list_rank" id="list_rank" autocomplete="off">
+                </select>
+            </li>
+            <li>
+                <label for="list_circuit">Circuit :</label>
+                <select name="list_circuit" id="circuit" autocomplete="off">
+
+                </select>
+            </li>
+            <li>
+                <label for="list_cars">Véhicule :</label>
+                <select name="list_cars" id="cars" autocomplete="off">
+                </select>
+            </li>
+            <li>
+                <label for="list_controleur">Controleur :</label>
+                <select name="list_controleur" id="controleur" autocomplete="off">
+                </select>
+            </li>
+        </ul>
+        <input  type="submit" value="Suivant"/>
+
+    </form>
+    <p id="ranking"></p>
+    <script src="index.js"></script>
+    
+</body>
+
+</html>

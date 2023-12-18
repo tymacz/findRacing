@@ -1,0 +1,28 @@
+ul{
+    list-style: none;
+}
+
+#joueur{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#joueur > li{
+    border: 2px solid black;
+    width: fit-content;
+    padding: 1%;
+    margin: 1%;
+
+}
+
+#navBar{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#navBar > input[type="search"]{
+    width: 50%;
+}
+#navBar > button[type="button"]{
+    width: 15%;
+}
