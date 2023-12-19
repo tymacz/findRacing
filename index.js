@@ -35,11 +35,6 @@ function print() {
   xhr.send(jsonstring);
 }
     
-
-
-
-
-
 function callNiveau() {
     fetch("http://localhost:8000/niveaux")
     .then(response => response.json())
@@ -120,5 +115,7 @@ function callControleur() {
   })
   .catch(error => console.error('Erreur lors de la requête API :', error));  
 }
+
 // Appeler la fonction lors du chargement de la page
 window.onload = callNiveau(),callPays(),callCircuit(),callCars(),callControleur()
+

@@ -23,7 +23,8 @@ app.listen(port, () => {
     app.get('/cars',db.getCars)
     app.get('/controleur',db.getControleur)
     app.post('/joueur',db.createUser)
-    app.get('/joueur/:id&:search',db.getUsersSearch)
-    app.get('/joueur/:id',db.getUsers)
+    app.get('/filter/:paramsString',db.getUsersFilter)
+    app.get('/search/:id&:search',db.getUsersSearch)
+    app.get('/otherUser/:id',db.getUsers)
     app.get('/joueur/',db.getAllUsers)
 

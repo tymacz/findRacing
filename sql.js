@@ -53,6 +53,43 @@ const pool =
             res.status(200).json(results.rows)
         })
     }
+
+    const getUsersFilter = (req, res) => {
+        const paramsString = req.params.paramsString;
+
+        // Diviser la chaîne en fonction des ampersands (&)
+        const paramsArray = paramsString.split('&');
+
+        // Affecter les valeurs aux variables appropriées
+        const id = paramsArray[0];
+        const circuit = paramsArray[4];
+        const cars = paramsArray[5];
+        const controleur = paramsArray[6];
+        const rank = paramsArray[3];
+        const localisation = paramsArray[1];
+        const com = paramsArray[2];
+    
+    
+        const stockfiltre = [id, localisation, rank, controleur, cars, circuit, com];
+    
+        const sql = `
+            SELECT nom_utilisateur, localisation.pays, niveau.rang, circuit.nom_circuit, vehicule.nom_vehicule, controleur.reference_controleur, systeme_communication
+            FROM joueur
+            INNER JOIN localisation ON joueur.id_localisation = localisation.id_localisation
+            INNER JOIN niveau ON joueur.id_niveau = niveau.id_niveau
+            INNER JOIN circuit ON joueur.id_circuit = circuit.id_circuit
+            INNER JOIN controleur ON joueur.id_controleur = controleur.id_controleur
+            INNER JOIN vehicule ON joueur.id_vehicule = vehicule.id_vehicule
+            WHERE id_joueur <> $1 AND localisation.id_localisation = $2 AND niveau.id_niveau = $3 AND circuit.id_circuit = $6 AND vehicule.id_vehicule = $5 AND controleur.id_controleur = $4 AND systeme_communication LIKE $7
+            ORDER BY nom_utilisateur ASC`;
+    
+        pool.query(sql, stockfiltre, (error, results) => {
+            if (error) {
+                throw error;
+            }
+            res.status(200).json(results.rows);
+        });
+    };
     const getPays = (request,response)=>{
         pool.query('SELECT id_localisation, pays FROM localisation ORDER BY pays ASC',(error,results)=>{
             if(error){
@@ -104,6 +141,28 @@ const pool =
         }
     };
 
+
+    const sort = (req, res) => {
+        const paramsString = req.params.paramsString;
+        const paramsArray = paramsString.split("&");
+    
+        // Appeler la fonction appropriée en fonction du nombre de paramètres
+        switch (paramsArray.length) {
+            case 7:
+                getUsersFilter(req, res);
+                break;
+            case 2:
+                getUsersSearch(req, res);
+                break;
+            case 1:
+                getUsers(req, res);
+                break;
+            default:
+                res.status(400).json({ error: 'Nombre de paramètres non pris en charge' });
+                break;
+        }
+    };
+
     module.exports = {
         getLevel,
         createUser,
@@ -113,5 +172,7 @@ const pool =
         getControleur,
         getUsers,
         getAllUsers,
-        getUsersSearch
+        getUsersSearch,
+        getUsersFilter,
+        sort
     }

@@ -13,11 +13,50 @@
     <form id="navBar">
         <input type="search" name="search" id="search" placeholder="rechercher des joueurs">
         <button type="submit" id="research">Search</button>
-        <button type="button">Filtre</button>
+        <button type="button" id="btFiltre">Filtre</button>
         <button type="button" id="simi">Joueurs similaires</button>
     </form>
+    <form>
+    <ul id="filtre"><li>
+        <label for="localisation">Pays :</label>
+        <select  name="localisation" id="localisation" autocomplete="off">
+        </select>
+    </li>
+    <li>
+        <label for="com">Mode de communication :</label>
+        <select name="com" id="com">
+            <option value="vocal">vocal</option>
+            <option value="text">text</option>
+        </select>
+    </li>
+    <li>
+        <label for="list_rank">rang :</label>
+        <select name="list_rank" id="list_rank" autocomplete="off">
+        </select>
+    </li>
+    <li>
+        <label for="list_circuit">Circuit :</label>
+        <select name="list_circuit" id="circuit" autocomplete="off">
+
+        </select>
+    </li>
+    <li>
+        <label for="list_cars">Véhicule :</label>
+        <select name="list_cars" id="cars" autocomplete="off">
+        </select>
+    </li>
+    <li>
+        <label for="list_controleur">Controleur :</label>
+        <select name="list_controleur" id="controleur" autocomplete="off">
+        </select>
+    </li>
+    <li>
+        <button type="submit" id="btnFilter" > filtrer !</button>
+    </li>
+</ul>
+</form>
     <ul id="joueur"></ul>
     <script src="/home.js"></script>
 </body>
-
+ 
 </html>
