@@ -75,7 +75,7 @@ const pool =
         const localisation = paramsArray[1];
         const com = paramsArray[2];
         const stockfiltre = [id, localisation, rank, controleur, cars, circuit, com];
-        const sql = `
+        let sql = `
             SELECT id_joueur,nom_utilisateur, localisation.pays, niveau.rang, circuit.nom_circuit, vehicule.nom_vehicule, controleur.reference_controleur, systeme_communication
             FROM joueur
             INNER JOIN localisation ON joueur.id_localisation = localisation.id_localisation
@@ -83,10 +83,29 @@ const pool =
             INNER JOIN circuit ON joueur.id_circuit = circuit.id_circuit
             INNER JOIN controleur ON joueur.id_controleur = controleur.id_controleur
             INNER JOIN vehicule ON joueur.id_vehicule = vehicule.id_vehicule
-            WHERE id_joueur <> $1 AND localisation.id_localisation = $2 AND niveau.id_niveau = $3 AND circuit.id_circuit = $6 AND vehicule.id_vehicule = $5 AND controleur.id_controleur = $4 AND systeme_communication LIKE $7
-            ORDER BY nom_utilisateur ASC`;
-    
-        pool.query(sql, stockfiltre, (error, results) => {
+            WHERE id_joueur <> ${id} `
+        if(circuit != 0){
+            sql+=`AND circuit.id_circuit = ${circuit} `
+        }
+        if(cars != 0){
+            sql+=`AND vehicule.id_vehicule = ${cars} `
+        }
+        if(controleur != 0){
+            sql+=`AND controleur.id_controleur = ${controleur} `
+        }        
+        if(rank != 0){
+            sql+=`AND niveau.id_niveau = ${rank} `
+        }
+        if(localisation != 0){
+            sql+=`AND localisation.id_localisation = ${localisation} `
+        }
+        if(com != 0){
+            sql+=`AND systeme_communication LIKE ${com} `
+        }
+
+        sql+=` ORDER BY nom_utilisateur`
+        console.log(sql);
+        pool.query(sql, (error, results) => {
             if (error) {
                 throw error;
             }
