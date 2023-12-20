@@ -4,13 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Find racing : inscription</title>
+    <link rel="stylesheet" href="inscription.css">
 </head>
 <body>
+    <div id="inscription">
+        <H1>Crée ta légende ! 🏎️</H1>
     <form id="sign_in">
         <ul>
             <li>
                 <label for="usrname">Nom d'utilisateur :</label>
                 <input type="text" name="usrname" id="usrname">
+            </li>
+            <li>
+                <label for="pswd">Mot de passe :</label>
+                <input type="password" name="pswd" id="pswd">
             </li>
             <li>
                 <label for="birth">Date de naissance :</label>
@@ -50,10 +57,10 @@
                 </select>
             </li>
         </ul>
-        <input  type="submit" value="Suivant"/>
-
+        <input  type="submit" value="S'inscrire"/>
+        <button id="connexion">Se connecter</button>
     </form>
-    <p id="ranking"></p>
+</div>
     <script src="index.js"></script>
     
 </body>

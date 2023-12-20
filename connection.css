@@ -1,0 +1,55 @@
+body{
+    background-image: url(https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/b06800ee-faa3-46e9-8977-05e371033c3e/dfgdycq-45167394-620e-4151-a070-965379ad88cf.png/v1/fill/w_1095,h_730,q_70,strp/damaged_futuristic_race_car_wallpaper_by_neonhaste_dfgdycq-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9ODU0IiwicGF0aCI6IlwvZlwvYjA2ODAwZWUtZmFhMy00NmU5LTg5NzctMDVlMzcxMDMzYzNlXC9kZmdkeWNxLTQ1MTY3Mzk0LTYyMGUtNDE1MS1hMDcwLTk2NTM3OWFkODhjZi5wbmciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.lYMwSZ_omT40qY-NwxQbHfLJMa937X1JlMefmbGE-tM);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    padding-left: 3%;
+    padding-right: 3%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+ul {
+    list-style: none;
+}
+
+#connection {
+    margin-top: 15%;
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    padding: 1%;
+    background: rgba(255, 255, 255, 0.24);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3.1px);
+    -webkit-backdrop-filter: blur(3.1px);
+}
+h1{
+    text-align: center;
+}
+#connection >form>ul{
+    display: flex;
+    flex-direction: column;
+    margin-left:-9% ;
+}
+
+#connection >form> ul > li{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom:1% ;
+}
+
+input{
+    width: 95%;
+}
+select{
+    width: 95%;
+}
+
+form>input{
+    margin-left: 2%;
+}

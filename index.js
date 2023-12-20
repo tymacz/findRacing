@@ -2,7 +2,7 @@
 let data = document.getElementById("sign_in");
 
 data.addEventListener("submit",(event)=> {event.preventDefault(); print()});
-
+//Inscription de l'utilisateur
 function print() {
   const xhr = new XMLHttpRequest();
   const fd = new FormData(data);
@@ -16,7 +16,7 @@ function print() {
 
   xhr.open("POST", "http://localhost:8000/joueur");
   xhr.setRequestHeader("Content-Type", "application/json");
-
+  //Si l'inscription est faite : récupération de l'id_joueur pour ouvrir sa page d'accueil
   xhr.onreadystatechange = function () {
       if (xhr.readyState === XMLHttpRequest.DONE) {
           if (xhr.status === 201) {
@@ -34,7 +34,7 @@ function print() {
 
   xhr.send(jsonstring);
 }
-    
+//Récupération des niveaux   
 function callNiveau() {
     fetch("http://localhost:8000/niveaux")
     .then(response => response.json())
@@ -50,7 +50,7 @@ function callNiveau() {
   })
   .catch(error => console.error('Erreur lors de la requête API :', error));  
 }
-
+//Récupération des pays
 function callPays() {
     fetch("http://localhost:8000/pays")
     .then(response => response.json())
@@ -66,7 +66,7 @@ function callPays() {
   })
   .catch(error => console.error('Erreur lors de la requête API :', error));  
 }
-
+//Récupération des circuits
 function callCircuit() {
     fetch("http://localhost:8000/circuit")
     .then(response => response.json())
@@ -83,7 +83,7 @@ function callCircuit() {
   .catch(error => console.error('Erreur lors de la requête API :', error));
 
 }
-
+//Récupération des voitures
 function callCars() {
     fetch("http://localhost:8000/cars")
     .then(response => response.json())
@@ -99,7 +99,7 @@ function callCars() {
   })
   .catch(error => console.error('Erreur lors de la requête API :', error));                    
 }
-
+//Récupération des controleurs
 function callControleur() {
     fetch("http://localhost:8000/controleur")
     .then(response => response.json())
@@ -115,6 +115,14 @@ function callControleur() {
   })
   .catch(error => console.error('Erreur lors de la requête API :', error));  
 }
+//Gestion du bouton Connexion
+const btnCo = document.getElementById("connexion");
+btnCo.addEventListener("click",(event)=> {event.preventDefault(); connexion()})
+//Renvoie à la page de connexion
+function connexion(){
+    window.location.href='http://127.0.0.1:8081/connection.html'
+}
+
 
 // Appeler la fonction lors du chargement de la page
 window.onload = callNiveau(),callPays(),callCircuit(),callCars(),callControleur()

@@ -1,3 +1,4 @@
+//import des fonctions utiles au bon fonctionnement
 const express = require('express')
 const db = require('./sql')
 const app = express()
@@ -17,6 +18,7 @@ app.get('/',(request,response)=>{
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)
   })
+  //différentes routes permettant de communiquer avec la base
     app.get('/niveaux',db.getLevel)
     app.get('/pays',db.getPays)
     app.get('/circuit',db.getCircuit)
@@ -27,4 +29,6 @@ app.listen(port, () => {
     app.get('/search/:id&:search',db.getUsersSearch)
     app.get('/otherUser/:id',db.getUsers)
     app.get('/joueur/',db.getAllUsers)
+    app.get('/connection/:usr&:password',db.connection)
+    app.get('/delete/:id',db.deleteUser)
 

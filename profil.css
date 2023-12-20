@@ -5,97 +5,40 @@ body{
     background-attachment: fixed;
     padding-left: 3%;
     padding-right: 3%;
-}
 
+}
 
 ul{
     list-style: none;
 }
 
-#joueur{
+body >#profil{
     display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    margin-top: 1%;
-    background: rgba(255, 255, 255, 0.24);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(3.1px);
-    -webkit-backdrop-filter: blur(3.1px);
-}
-
-#joueur > li{
-    border: 2px solid black;
-    width: 100%;
-    padding: 1%;
-    margin: 0.5%;
-}
-
-#joueur > li > ul {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    
-}
-
-#joueur > li >ul >li{
-    margin-left: 1%;
-    justify-content: space-between;
-}
-
-#navBar{
-    display: flex;
-    justify-content: space-evenly;
-}
-
-#navBar > input[type="search"]{
-    width: 100%;
-}
-#navBar > button[type="button"]{
-    width: 40%;
-}
-
-#filtre {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    background: rgba(255, 255, 255, 0.24);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(3.1px);
-    -webkit-backdrop-filter: blur(3.1px);
-}
-
-#filtre > li {
- width: fit-content;
- margin: 1%;
-}
-
-#profil > img{
-width: 15%;
-height: 50%;
-margin-right: 1%;
-}
+    align-items: center;
+} 
 
 #profil{
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    width: fit-content;
     align-items: center;
+    width: fit-content;
+    padding: 1%;
     background: rgba(255, 255, 255, 0.24);
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(3.1px);
     -webkit-backdrop-filter: blur(3.1px);
 }
-#header {
+
+#header{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-bottom:1% ;
-    margin-top:1%
+}
+
+#header > div {
+    display: flex;
+    align-items: center;
 }
 
 #header >h1{
@@ -106,10 +49,3 @@ margin-right: 1%;
     backdrop-filter: blur(3.1px);
     -webkit-backdrop-filter: blur(3.1px);
 }
-
-
-
-
-
-
-

@@ -1,4 +1,4 @@
-
+//affichage de touts les utilisateurs
 function username(occurence) {
     const searchbar = document.getElementById("user")
     const url = window.location.search
@@ -7,7 +7,7 @@ function username(occurence) {
     fetch("http://localhost:8000/joueur/")
         .then(response => response.json())
         .then(data => {
-            // Supposons que 'usr' est l'id_joueur que tu recherches
+            //Récuperation de données utilisation et affichage
             data.forEach(function (objet) {
                 if (objet.id_joueur == usr) {
                     const user = objet.nom_utilisateur
@@ -20,21 +20,23 @@ function username(occurence) {
                     data.forEach(function (objet) {
                         const li = document.createElement("li")
                         const ul = document.createElement("ul");
-
-                        // Itère sur les propriétés de l'objet
+                        li.setAttribute("id",objet.id_joueur)
+                        
                         for (const [key, value] of Object.entries(objet)) {
-                            // Crée un élément de liste (li) pour chaque propriété
+                            
+                            if(key != "id_joueur"){
                             const propertyLi = document.createElement("li");
-                            propertyLi.textContent = `${value}`;
+                            propertyLi.textContent = `${key} : ${value}`;
                     
-                            // Ajoute l'élément de liste de propriété à la liste non ordonnée
-                            ul.appendChild(propertyLi);
+                            
+                            ul.appendChild(propertyLi);}
                         }
                     
-                        // Ajoute la liste non ordonnée à l'élément li
+                        
+                        li.setAttribute("onclick",`affichageProfil(${objet.id_joueur})`)
                         li.appendChild(ul);
                     
-                        // Ajoute l'élément li à la liste existante dans l'élément avec l'id "joueur"
+                        
                         document.getElementById("joueur").appendChild(li);
                         document.getElementById("joueur").appendChild(li);
             });
@@ -46,12 +48,14 @@ function username(occurence) {
         .catch(error => console.error('Erreur lors de la requête API :', error));
 }
 
+//Gestion de la recherche
 const btSearch = document.getElementById("research");
 btSearch.addEventListener("click",(event)=> {event.preventDefault(); search()});
-
+//Gestion des filtre
 const btSubmitFiltre = document.getElementById("btnFilter");
 btSubmitFiltre.addEventListener("click",(event)=> {event.preventDefault(); filtre()});
 
+//Même fonction que username mais pour la recherche
 function search(){
     eraser();
     const url = new URL(window.location.href);
@@ -69,27 +73,29 @@ function search(){
     data.forEach(function (objet) {
             const li = document.createElement("li");
             const ul = document.createElement("ul");
-
-            // Itère sur les propriétés de l'objet
+           
             for (const [key, value] of Object.entries(objet)) {
-                // Crée un élément de liste (li) pour chaque propriété
-                const propertyLi = document.createElement("li");
-                propertyLi.textContent = `${value}`;
+                
+                if(key != "id_joueur"){
+                    const propertyLi = document.createElement("li");
+                    propertyLi.textContent = `${key} : ${value}`;
+            
+                    
+                    ul.appendChild(propertyLi);}
+                }
 
-                // Ajoute l'élément de liste de propriété à la liste non ordonnée
-                ul.appendChild(propertyLi);
-            }
-
-            // Ajoute la liste non ordonnée à l'élément li
+            
             li.appendChild(ul);
+            li.setAttribute("onclick",`affichageProfil(${objet.id_joueur})`)
+            li.setAttribute("id",objet.id_joueur)
 
-            // Ajoute l'élément li à la liste existante dans l'élément avec l'id "joueur"
+            
             document.getElementById("joueur").appendChild(li);
 });
 })
 .catch((error) => console.error('Erreur lors de la requête API :', error));
 }}
-
+// Même fonction que username mais pour le filtre
 function filtre(){
     eraser();
     const url = new URL(window.location.href);
@@ -112,29 +118,31 @@ function filtre(){
             const li = document.createElement("li");
             const ul = document.createElement("ul");
 
-            // Itère sur les propriétés de l'objet
+            
             for (const [key, value] of Object.entries(objet)) {
-                // Crée un élément de liste (li) pour chaque propriété
-                const propertyLi = document.createElement("li");
-                propertyLi.textContent = `${value}`;
-
-                // Ajoute l'élément de liste de propriété à la liste non ordonnée
-                ul.appendChild(propertyLi);
+                
+                if(key != "id_joueur"){
+                    const propertyLi = document.createElement("li");
+                    propertyLi.textContent = `${key} : ${value}`;
+            
+                    
+                    ul.appendChild(propertyLi);}
             }
-
-            // Ajoute la liste non ordonnée à l'élément li
+            li.setAttribute("id",objet.id_joueur)
+            li.setAttribute("onclick",`affichageProfil(${objet.id_joueur})`)
             li.appendChild(ul);
 
-            // Ajoute l'élément li à la liste existante dans l'élément avec l'id "joueur"
+            
             document.getElementById("joueur").appendChild(li);
 });
 })
 .catch((error) => console.error('Erreur lors de la requête API :', error));
 }
-
+//gestion du bouton filtre
 const btFilter = document.getElementById("btFiltre");
 const filterList = document.getElementById("filtre");
 filterList.style.display = "none";
+//affichage et non affichage des filtres
 btFilter.addEventListener("click",()=>{
     if(getComputedStyle(filterList).display != "none"){
         filterList.style.display = "none";
@@ -142,15 +150,31 @@ btFilter.addEventListener("click",()=>{
         filterList.style.display = "flex";
     }
 })
+//Gestion du bouton profil
+const btnProfil = document.getElementById("profil")
+btnProfil.addEventListener("click",(event)=>{event.preventDefault();affichageProfil(0)});
 
+//fonction affichage profil
+function affichageProfil(data){
+    if(data == 0){
+        const url = window.location.search
+        const urlParams = new URLSearchParams(url)
+        const usr = urlParams.get('user')
+        window.location.href=`http://127.0.0.1:8081/profil.html/?user=${usr}`
+    }else{
+        window.location.href=`http://127.0.0.1:8081/profil.html/?user=${data}`
+    }
 
+}
+
+//fonction pour effacer le contenu
 function eraser(){
     const joueur = document.getElementById("joueur");
     while (joueur.hasChildNodes()) {
         joueur.removeChild(joueur.firstChild);
       }
 }
-
+//appel des niveaux
 function callNiveau() {
     fetch("http://localhost:8000/niveaux")
     .then(response => response.json())
@@ -166,7 +190,7 @@ function callNiveau() {
   })
   .catch(error => console.error('Erreur lors de la requête API :', error));  
 }
-
+//appel des pays
 function callPays() {
     fetch("http://localhost:8000/pays")
     .then(response => response.json())
@@ -182,7 +206,7 @@ function callPays() {
   })
   .catch(error => console.error('Erreur lors de la requête API :', error));  
 }
-
+//appel des circuits
 function callCircuit() {
     fetch("http://localhost:8000/circuit")
     .then(response => response.json())
@@ -199,7 +223,7 @@ function callCircuit() {
   .catch(error => console.error('Erreur lors de la requête API :', error));
 
 }
-
+//appel des voitures
 function callCars() {
     fetch("http://localhost:8000/cars")
     .then(response => response.json())
@@ -215,7 +239,7 @@ function callCars() {
   })
   .catch(error => console.error('Erreur lors de la requête API :', error));                    
 }
-
+//appel des controleurs
 function callControleur() {
     fetch("http://localhost:8000/controleur")
     .then(response => response.json())
@@ -231,4 +255,6 @@ function callControleur() {
   })
   .catch(error => console.error('Erreur lors de la requête API :', error));  
 }
+
+//appel des fonctions au démarage
 window.onload = username(0),callCars(),callCircuit(),callControleur(),callNiveau(),callPays()

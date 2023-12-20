@@ -1,6 +1,7 @@
 const { request } = require('express');
 const { Pool } = require('pg');
 const pool =
+//connexion à la base de données
     new Pool({
         user: 'postgres',
         host: '127.0.0.1',
@@ -8,10 +9,11 @@ const pool =
         tables: 'localisation',
         password: 'M361r2b2?',
         port: '5432',
-        max: 20, // Maximum number of clients in the pool 
+        max: 20, 
         idleTimeoutMillis: 30000,
     })
 
+//récupération des niveaux
     const getLevel = (request,response)=>{
         pool.query('SELECT id_niveau,rang FROM niveau ORDER BY rang ASC',(error,results)=>{
             if(error){
@@ -20,18 +22,25 @@ const pool =
             response.status(200).json(results.rows)
         })
     }
+//récupération des profils 
     const getAllUsers = (request,response)=>{
-        pool.query('SELECT id_joueur,nom_utilisateur FROM joueur ORDER BY id_joueur ASC',(error,results)=>{
+        pool.query(`SELECT * FROM joueur 
+        INNER JOIN localisation ON joueur.id_localisation = localisation.id_localisation
+        INNER JOIN niveau ON joueur.id_niveau = niveau.id_niveau
+        INNER JOIN circuit ON joueur.id_circuit = circuit.id_circuit
+        INNER JOIN controleur ON joueur.id_controleur = controleur.id_controleur
+        INNER JOIN vehicule ON joueur.id_vehicule = vehicule.id_vehicule ORDER BY id_joueur ASC`,(error,results)=>{
             if(error){
                 throw error
             }
             response.status(200).json(results.rows)
         })
     }
+    //récupération des profils sans l'utilisateur
     const getUsers = (request,response)=>{
         const id = request.params.id
         console.log(id)
-        const sql  = `SELECT nom_utilisateur,localisation.pays,niveau.rang,circuit.nom_circuit,vehicule.nom_vehicule,controleur.reference_controleur,systeme_communication FROM joueur INNER JOIN localisation ON joueur.id_localisation = localisation.id_localisation INNER JOIN niveau ON joueur.id_niveau = niveau.id_niveau INNER JOIN circuit ON joueur.id_circuit = circuit.id_circuit INNER JOIN controleur ON joueur.id_controleur = controleur.id_controleur INNER JOIN vehicule ON joueur.id_vehicule = vehicule.id_vehicule WHERE id_joueur <> ${id} ORDER BY nom_utilisateur ASC `
+        const sql  = `SELECT id_joueur, nom_utilisateur,localisation.pays,niveau.rang,circuit.nom_circuit,vehicule.nom_vehicule,controleur.reference_controleur,systeme_communication FROM joueur INNER JOIN localisation ON joueur.id_localisation = localisation.id_localisation INNER JOIN niveau ON joueur.id_niveau = niveau.id_niveau INNER JOIN circuit ON joueur.id_circuit = circuit.id_circuit INNER JOIN controleur ON joueur.id_controleur = controleur.id_controleur INNER JOIN vehicule ON joueur.id_vehicule = vehicule.id_vehicule WHERE id_joueur <> ${id} ORDER BY nom_utilisateur ASC `
         pool.query(sql,(error,results)=>{
             if(error){
                 throw error
@@ -39,13 +48,14 @@ const pool =
             response.status(200).json(results.rows)
         })
     }
+    // Recherche des utilisateurs via la recherche
     const getUsersSearch = (req,res)=>{
         const id = req.params.id
         const search = req.params.search
         searchPattern = "%"+search+"%"
         const stock = [id,searchPattern]
         console.log(stock)
-        const sql =`SELECT nom_utilisateur,localisation.pays,niveau.rang,circuit.nom_circuit,vehicule.nom_vehicule,controleur.reference_controleur,systeme_communication FROM joueur INNER JOIN localisation ON joueur.id_localisation = localisation.id_localisation INNER JOIN niveau ON joueur.id_niveau = niveau.id_niveau INNER JOIN circuit ON joueur.id_circuit = circuit.id_circuit INNER JOIN controleur ON joueur.id_controleur = controleur.id_controleur INNER JOIN vehicule ON joueur.id_vehicule = vehicule.id_vehicule WHERE id_joueur <> $1 and pays LIKE $2 or nom_utilisateur LIKE $2 or niveau.rang LIKE $2 or circuit.nom_circuit LIKE $2 or vehicule.nom_vehicule LIKE $2 or controleur.reference_controleur LIKE $2 ORDER BY nom_utilisateur ASC `
+        const sql =`SELECT id_joueur ,nom_utilisateur,localisation.pays,niveau.rang,circuit.nom_circuit,vehicule.nom_vehicule,controleur.reference_controleur,systeme_communication FROM joueur INNER JOIN localisation ON joueur.id_localisation = localisation.id_localisation INNER JOIN niveau ON joueur.id_niveau = niveau.id_niveau INNER JOIN circuit ON joueur.id_circuit = circuit.id_circuit INNER JOIN controleur ON joueur.id_controleur = controleur.id_controleur INNER JOIN vehicule ON joueur.id_vehicule = vehicule.id_vehicule WHERE id_joueur <> $1 and pays LIKE $2 or nom_utilisateur LIKE $2 or niveau.rang LIKE $2 or circuit.nom_circuit LIKE $2 or vehicule.nom_vehicule LIKE $2 or controleur.reference_controleur LIKE $2 ORDER BY nom_utilisateur ASC `
         pool.query(sql,stock,(error,results)=>{
             if(error){
                 throw error
@@ -53,14 +63,10 @@ const pool =
             res.status(200).json(results.rows)
         })
     }
-
+//Recherche des utilisateurs via les filtres
     const getUsersFilter = (req, res) => {
         const paramsString = req.params.paramsString;
-
-        // Diviser la chaîne en fonction des ampersands (&)
         const paramsArray = paramsString.split('&');
-
-        // Affecter les valeurs aux variables appropriées
         const id = paramsArray[0];
         const circuit = paramsArray[4];
         const cars = paramsArray[5];
@@ -68,12 +74,9 @@ const pool =
         const rank = paramsArray[3];
         const localisation = paramsArray[1];
         const com = paramsArray[2];
-    
-    
         const stockfiltre = [id, localisation, rank, controleur, cars, circuit, com];
-    
         const sql = `
-            SELECT nom_utilisateur, localisation.pays, niveau.rang, circuit.nom_circuit, vehicule.nom_vehicule, controleur.reference_controleur, systeme_communication
+            SELECT id_joueur,nom_utilisateur, localisation.pays, niveau.rang, circuit.nom_circuit, vehicule.nom_vehicule, controleur.reference_controleur, systeme_communication
             FROM joueur
             INNER JOIN localisation ON joueur.id_localisation = localisation.id_localisation
             INNER JOIN niveau ON joueur.id_niveau = niveau.id_niveau
@@ -90,6 +93,8 @@ const pool =
             res.status(200).json(results.rows);
         });
     };
+
+    //Récupération des pays
     const getPays = (request,response)=>{
         pool.query('SELECT id_localisation, pays FROM localisation ORDER BY pays ASC',(error,results)=>{
             if(error){
@@ -98,7 +103,7 @@ const pool =
             response.status(200).json(results.rows)
         })
     }
-
+    //Récupération des circuits
     const getCircuit = (request,response)=>{
         pool.query('SELECT id_circuit,nom_circuit FROM circuit WHERE id_circuit<184 ORDER BY nom_circuit ASC',(error,results)=>{
             if(error){
@@ -107,7 +112,7 @@ const pool =
             response.status(200).json(results.rows)
         })
     }
-
+    //Récupération des voitures
     const getCars = (request,response)=>{
         pool.query('SELECT id_vehicule ,nom_vehicule FROM vehicule ORDER BY nom_vehicule ASC',(error,results)=>{
             if(error){
@@ -116,7 +121,7 @@ const pool =
             response.status(200).json(results.rows)
         })
     }
-
+    //Récupération des controleurs
     const getControleur = (request,response)=>{
         pool.query('SELECT id_controleur ,reference_controleur FROM controleur ORDER BY reference_controleur ASC',(error,results)=>{
             if(error){
@@ -125,11 +130,10 @@ const pool =
             response.status(200).json(results.rows)
         })
     }
-
+    //Création de l'utilisateur
      const createUser = async (req, res) => {
-        //const usr = [req.body.username,req.body.birthday,req.body.systeme_communication,req.body.id_niveau,req.body.id_localisation,req.body.id_controleur,req.body.id_circuit,req.body.id_vehicule]
-        const user = [req.body.usrname,req.body.birth,req.body.com,req.body.list_rank,req.body.localisation,req.body.list_controleur,req.body.list_circuit,req.body.list_cars]
-        const sql = 'INSERT INTO joueur VALUES ((SELECT MAX (id_joueur) FROM joueur)+1, $1 , $2 , $3 , $4 , $5 , $6 , $7 , $8) RETURNING id_joueur'
+        const user = [req.body.usrname,req.body.birth,req.body.com,req.body.list_rank,req.body.localisation,req.body.list_controleur,req.body.list_circuit,req.body.list_cars,req.body.pswd]
+        const sql = 'INSERT INTO joueur VALUES ((SELECT MAX (id_joueur) FROM joueur)+1, $1 , $2 , $3 , $4 , $5 , $6 , $7 , $8,$9) RETURNING id_joueur'
         try {
             const result = await pool.query(sql, user);
             const idUser = result.rows[0].id_joueur;
@@ -140,29 +144,32 @@ const pool =
             res.status(500).send('Erreur lors de l\'inscription');
         }
     };
-
-
-    const sort = (req, res) => {
-        const paramsString = req.params.paramsString;
-        const paramsArray = paramsString.split("&");
-    
-        // Appeler la fonction appropriée en fonction du nombre de paramètres
-        switch (paramsArray.length) {
-            case 7:
-                getUsersFilter(req, res);
-                break;
-            case 2:
-                getUsersSearch(req, res);
-                break;
-            case 1:
-                getUsers(req, res);
-                break;
-            default:
-                res.status(400).json({ error: 'Nombre de paramètres non pris en charge' });
-                break;
-        }
-    };
-
+    //Vérification des données de connexion
+    const connection = (req,res)=>{
+        const user = req.params.usr;
+        const pswd = req.params.password;
+        const stock =[user,pswd];
+        const sql =`SELECT id_joueur,nom_utilisateur,password FROM joueur WHERE nom_utilisateur = $1 and password = $2`
+        pool.query(sql,stock,(error,results)=>{
+            if(error){
+                throw error
+            }
+            res.status(200).json(results.rows)
+        })
+    }
+    //Suppression de l'utilisateur
+    const deleteUser = (req,res)=>{
+        const user = req.params.id;
+        console.log(user)
+        const sql = `DELETE FROM joueur WHERE id_joueur = ${user}`
+        pool.query(sql,(error)=>{
+            if(error){
+                throw error
+            }
+            res.status(200).send(`Utilisateur : ${user} supprimé(e)`)
+        })
+    }
+    //export des fonctions
     module.exports = {
         getLevel,
         createUser,
@@ -174,5 +181,6 @@ const pool =
         getAllUsers,
         getUsersSearch,
         getUsersFilter,
-        sort
+        connection,
+        deleteUser
     }

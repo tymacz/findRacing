@@ -9,12 +9,17 @@
 </head>
 
 <body>
-    <p id="user">welcome</p>
+    <div id="header">
+        <h1>FindRacing 🏎️</h1>
+        <div id="profil">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOXdtRuY7vKNgks8ixzzG2azR1HNlhdo_dIkeQPtpWftULaYMdYIT99sw5oECBb0UrOSk&usqp=CAU" alt="" srcset="">
+        <p id="user">welcome</p> </div>    
+    </div>
+    
     <form id="navBar">
         <input type="search" name="search" id="search" placeholder="rechercher des joueurs">
         <button type="submit" id="research">Search</button>
         <button type="button" id="btFiltre">Filtre</button>
-        <button type="button" id="simi">Joueurs similaires</button>
     </form>
     <form>
     <ul id="filtre"><li>
@@ -54,8 +59,13 @@
         <button type="submit" id="btnFilter" > filtrer !</button>
     </li>
 </ul>
+
+
+
 </form>
-    <ul id="joueur"></ul>
+    <ul id="joueur">
+    </ul>
+
     <script src="/home.js"></script>
 </body>
  
